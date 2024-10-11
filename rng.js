@@ -4,6 +4,7 @@ const crypto = require('crypto');
 /**
  * A secure HMAC-based deterministic RNG.
  * This function initializes with a seed and generates random bytes deterministically.
+ * You can change the totalBits as needed
  */
 class HmacDrbg {
   constructor(seed) {
@@ -38,9 +39,10 @@ const generateSecureSeed = () => {
 };
 
 // Function to generate random bits and write to file
+// => we need to ensure the data must be a binary sequence stored as binary data, where each byte contains eight bits to pass the NIST tests
 const generateRandomBits = async () => {
   const totalBits = 100000000; // 100 million bits
-  const totalBytes = Math.ceil(totalBits / 8);
+  const totalBytes = Math.ceil(totalBits / 8); 
 
   const writeStream = fs.createWriteStream('secureRandomBits.bin');
   const chunkSize = 1024 * 1024; // 1 MB chunks
